@@ -8,6 +8,28 @@ An autonomous, hardware-deterministic Fault Detection, Isolation, and Recovery/P
 
 The system operates as an independent supervisor sitting between simulated spacecraft subsystem sensors, the power control lines, and the main OBC.
 
++--------------------------------------------------------+
+|                  FPGA FDIR CONTROLLER                  |
+|                                                        |
+|  +-------------------+        +--------------------+   |
+|  |  sensor_interface | ---->  |   fault_detector   |   |
+|  +-------------------+        +--------------------+   |
+|                                         |              |
+|  +-------------------+                  v              |
+|  |     watchdog      | ---->  +--------------------+   |
+|  +-------------------+        |   fault_manager    |   |
+|                               +--------------------+   |
+|  +-------------------+                  |              |
+|  |   uart_interface  | <---+            v              |
+|  +-------------------+     |  +--------------------+   |
+|            ^               |  |   protection_fsm   |   |
+|            |               |  +--------------------+   |
+|            v               |            |              |
+|  +-------------------+     |            v              |
+|  |   fault_register  | <---+    [ Protection Outputs ] |
+|  +-------------------+          (payload_enable, safe) |
++--------------------------------------------------------+
+
 ### Module Hierarchy
 
 1. **`top_level.v`**: Top-level wrapper interconnecting all internal sub-modules.
